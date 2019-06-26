@@ -1,0 +1,519 @@
+******************* REM PREGUNTA 1
+
+SQL> SELECT SYSDATE
+  2       FROM DUAL;
+
+SYSDATE                                                                                                                 
+---------                                                                                                               
+19-APR-19                                                                                                               
+
+******************* REM PREGUNTA 2
+
+SQL> SELECT TO_CHAR(SYSDATE, 'HH:MI:SS')
+  2       FROM DUAL;
+
+TO_CHAR(                                                                                                                
+--------                                                                                                                
+06:18:13                                                                                                                
+
+******************* REM PREGUNTA 3:
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DAY:DD:MM:YYYY')
+  2       FROM DUAL;
+
+TO_CHAR(SYSDATE,'DAY:DD:MM:YYYY')                                                                                       
+-----------------------------------------------                                                                         
+FRIDAY   :19:04:2019                                                                                                    
+
+******************* REM PREGUNTA 4
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24:MI:SS')
+  2       FROM DUAL;
+
+TO_CHAR(                                                                                                                
+--------                                                                                                                
+18:22:00                                                                                                                
+
+******************* REM PREGUNTA 5
+SQL> SELECT (SYSDATE-FI)
+  2       FROM PLAN_DOCENTE
+  3            WHERE ((DNI= 8888) AND (CAS = 11));
+
+(SYSDATE-FI)                                                                                                            
+------------                                                                                                            
+  3517.76899                                                                                                            
+
+SQL> SELECT (SYSDATE-FI)
+  2       FROM PLAN_DOCENTE NATURAL JOIN DUAL
+  3            WHERE ((DNI= 8888) AND (CAS = 11));
+
+(SYSDATE-FI)                                                                                                            
+------------                                                                                                            
+  3517.76913                                                                                                            
+
+******************* REM PREGUNTA 6
+SQL> SELECT UNIQUE (P)
+  2       FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3            WHERE ((FF-FI)>365) OR (((SYSDATE-FI)>365) AND (FF IS NULL));
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+MARIO                                                                                                                   
+JUAN                                                                                                                    
+PEDRO                                                                                                                   
+FRANCISCO                                                                                                               
+SOLEDAD                                                                                                                 
+DAVID                                                                                                                   
+CARLOS                                                                                                                  
+IVAN                                                                                                                    
+CARMEN                                                                                                                  
+MARIA                                                                                                                   
+JOSE MANUEL                                                                                                             
+ANGELA                                                                                                                  
+
+12 rows selected.
+
+******************* REM PREGUNTA 7
+SQL> SELECT COUNT (DNI)
+  2       FROM PROFESOR
+  3            WHERE CAR IN (SELECT CAR
+  4                               FROM AREA
+  5                                    WHERE CD IN (SELECT CD
+  6                                                      FROM DEPARTAMENTO
+  7                                                           WHERE D = 'ASTROFISICA'));
+
+COUNT(DNI)                                                                                                              
+----------                                                                                                              
+         1                                                                                                              
+
+SQL> SELECT COUNT (DNI)
+  2       FROM PROFESOR NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  3            WHERE D = 'ASTROFISICA';
+
+COUNT(DNI)                                                                                                              
+----------                                                                                                              
+         1                                                                                                              
+
+******************* REM PREGUNTA 8
+SQL> SELECT D, COUNT (DNI)
+  2        FROM PROFESOR NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  3            GROUP BY D;
+
+D                                                            COUNT(DNI)                                                 
+------------------------------------------------------------ ----------                                                 
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                    7                                                 
+ASTROFISICA                                                           1                                                 
+ANALISIS MATEMATICO                                                   3                                                 
+MATEMATICA FUNDAMENTAL                                                1                                                
+
+******************* REM PREGUNTA 9
+SQL> SELECT COUNT (T)
+  2       FROM ASIGNATURA
+  3            WHERE CAR IN (SELECT CAR
+  4                  FROM AREA
+  5                       WHERE CD IN (SELECT CD
+  6                           FROM DEPARTAMENTO
+  7                                WHERE D ='ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION'));
+
+  COUNT(T)                                                                                                              
+----------                                                                                                              
+         7                                                                                                              
+
+SQL> SELECT COUNT (T)
+  2       FROM ASIGNATURA NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  3            WHERE D = 'ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION';
+
+  COUNT(T)                                                                                                              
+----------                                                                                                              
+         7                                                                                                              
+
+******************* REM PREGUNTA 10
+SQL> SELECT COUNT(DNI)
+  2       FROM PROFESOR
+  3            WHERE CAR IN (SELECT CAR
+  4                               FROM AREA
+  5                                    WHERE AR LIKE 'A%');
+
+COUNT(DNI)
+----------
+         3
+
+SQL> SELECT COUNT(DNI)
+  2       FROM PROFESOR NATURAL JOIN AREA
+  3            WHERE (AR LIKE 'A%');
+
+COUNT(DNI)
+----------
+         3
+
+SQL> SELECT COUNT(DNI)
+  2       FROM PROFESOR, AREA
+  3            WHERE (PROFESOR.CAR = AREA.CAR AND AR LIKE 'A%');
+
+COUNT(DNI)
+----------
+         3
+
+******************* REM PREGUNTA 11
+SQL> SELECT COUNT(A), T
+  2         FROM ASIGNATURA
+  3              GROUP BY T
+  4                  ORDER BY T;
+
+  COUNT(A) T
+---------- ------
+         1 GF
+         7 GII
+         2 GM
+         2 MII
+
+******************* REM PREGUNTA 12
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE CT = (SELECT MAX(CT)
+  4                            FROM ASIGNATURA);
+
+A
+--------------------------------------------------
+ENSENANZA DE LA MATEMATICA
+
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE CT >= ALL (SELECT CT
+  4                                FROM ASIGNATURA);
+
+A
+--------------------------------------------------
+ENSENANZA DE LA MATEMATICA
+
+******************* REM PREGUNTA 13
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE CT <= ALL (SELECT CT
+  4                            FROM ASIGNATURA);
+
+A
+--------------------------------------------------
+ALMACENES DE DATOS
+INTELIGENCIA ARTIFICIAL
+MINERIA DE DATOS
+
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE CT = (SELECT MIN(CT)
+  4                            FROM ASIGNATURA);
+
+A
+--------------------------------------------------
+INTELIGENCIA ARTIFICIAL
+ALMACENES DE DATOS
+MINERIA DE DATOS
+
+
+******************* REM PREGUNTA 14
+SQL> SELECT SUM(CT+CP+CL), A
+  2         FROM ASIGNATURA
+  3              GROUP BY A;
+
+SUM(CT+CP+CL) A
+------------- --------------------------------------------------
+            6 ALGEBRA
+            6 BASES DE DATOS
+            6 INFORMATICA BASICA
+            6 OPTIMIZACION
+            6 CALCULO
+            6 ENSENANZA DE LA MATEMATICA
+          7.5 ANALISIS COMPLEJO
+            6 GESTION DE RIESGOS
+            6 INTELIGENCIA ARTIFICIAL
+            3 MINERIA DE DATOS
+            3 ALMACENES DE DATOS
+
+12 rows selected.
+
+SQL> SELECT (CT+CP+CL), A
+  2       FROM ASIGNATURA
+  3            ORDER BY A;
+
+(CT+CP+CL) A
+---------- --------------------------------------------------
+         6 ALGEBRA
+         3 ALMACENES DE DATOS
+       7.5 ANALISIS COMPLEJO
+         6 ASTRONOMIA
+         6 BASES DE DATOS
+         6 CALCULO
+         6 ENSENANZA DE LA MATEMATICA
+         6 GESTION DE RIESGOS
+         6 INFORMATICA BASICA
+         6 INTELIGENCIA ARTIFICIAL
+         3 MINERIA DE DATOS
+
+(CT+CP+CL) A
+---------- --------------------------------------------------
+         6 OPTIMIZACION
+
+12 rows selected.
+
+SQL> SELECT (CT+CP+CL), A
+  2       FROM ASIGNATURA;
+
+(CT+CP+CL) A
+---------- --------------------------------------------------
+         6 BASES DE DATOS
+         6 INTELIGENCIA ARTIFICIAL
+         3 ALMACENES DE DATOS
+         3 MINERIA DE DATOS
+         6 INFORMATICA BASICA
+         6 ALGEBRA
+         6 CALCULO
+         6 OPTIMIZACION
+         6 ASTRONOMIA
+         6 ENSENANZA DE LA MATEMATICA
+       7.5 ANALISIS COMPLEJO
+
+(CT+CP+CL) A
+---------- --------------------------------------------------
+         6 GESTION DE RIESGOS
+
+12 rows selected.
+
+******************* REM PREGUNTA 15
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE (CT+CP+CL) = (SELECT MAX(CT+CP+CL)
+  4                                     FROM ASIGNATURA);
+
+A
+--------------------------------------------------
+ANALISIS COMPLEJO
+
+******************* REM PREGUNTA 16
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE (CT+CP+CL) = (SELECT MIN(CT+CP+CL)
+  4                                     FROM ASIGNATURA);
+
+A
+--------------------------------------------------
+ALMACENES DE DATOS
+MINERIA DE DATOS
+
+******************* REM PREGUNTA 17
+SQL> SELECT AR
+  2         FROM AREA
+  3              WHERE CAR IN (SELECT CAR
+  4                                 FROM ASIGNATURA
+  5                                      WHERE (CT+CP+CL) = (SELECT MAX(CT+CP+CL)
+  6                                                                FROM ASIGNATURA));
+
+AR
+------------------------------------------------------------
+ANALISIS MATEMATICO
+
+SQL> SELECT AR
+  2       FROM AREA NATURAL JOIN ASIGNATURA
+  3            WHERE (CT+CP+CL) = (SELECT MAX(CT+CP+CL)
+  4                                     FROM ASIGNATURA);
+
+AR
+------------------------------------------------------------
+ANALISIS MATEMATICO
+
+SQL> SELECT AR
+  2       FROM AREA, ASIGNATURA
+  3            WHERE (AREA.CAR = ASIGNATURA.CAR) AND (CT+CP+CL) = (SELECT MAX(CT+CP+CL)
+  4                                                                     FROM ASIGNATURA);
+
+AR
+------------------------------------------------------------
+ANALISIS MATEMATICO
+
+SQL> SELECT AR
+  2         FROM AREA
+  3              WHERE CAR = (SELECT CAR
+  4                                 FROM ASIGNATURA
+  5                                      WHERE (CT+CP+CL) = (SELECT MAX(CT+CP+CL)
+  6                                                                     FROM ASIGNATURA));
+
+AR
+------------------------------------------------------------
+ANALISIS MATEMATICO
+
+******************* REM PREGUNTA 18
+SQL> SELECT COUNT(CAS)
+  2         FROM ASIGNATURA
+  3              WHERE CAR = (SELECT CAR
+  4                                FROM PROFESOR
+  5                                     WHERE DNI = '1111');
+
+COUNT(CAS)
+----------
+         1
+
+SQL> SELECT COUNT(CAS), A
+  2         FROM ASIGNATURA
+  3              WHERE CAR = (SELECT CAR
+  4                                FROM PROFESOR
+  5                                     WHERE DNI = '1111')
+  6                                      GROUP BY A;
+
+COUNT(CAS) A
+---------- --------------------------------------------------
+         1 OPTIMIZACION
+
+SQL> SELECT COUNT(CAS), A
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3            WHERE DNI = '1111'
+  4                GROUP BY A;
+
+COUNT(CAS) A
+---------- --------------------------------------------------
+         1 OPTIMIZACION
+
+SQL> SELECT COUNT(CAS), A
+  2       FROM ASIGNATURA, PROFESOR
+  3            WHERE ( (ASIGNATURA.CAR = PROFESOR.CAR) AND (DNI = '1111'))
+  4                GROUP BY A;
+
+COUNT(CAS) A
+---------- --------------------------------------------------
+         1 OPTIMIZACION
+
+SQL> SELECT COUNT(DISTINCT(CAS))
+  2       FROM PLAN_DOCENTE
+  3           WHERE (DNI = '1111');
+
+COUNT(DISTINCT(CAS))
+--------------------
+                   1
+
+
+******************* REM PREGUNTA 19
+SQL> SELECT (CTA+CPA+CLA)
+  2       FROM PLAN_DOCENTE
+  3           WHERE (DNI = '1111');
+
+(CTA+CPA+CLA)
+-------------
+            6
+            3
+
+SQL> SELECT SUM(CTA+CPA+CLA)
+  2       FROM PLAN_DOCENTE
+  3           WHERE (DNI = '1111');
+
+SUM(CTA+CPA+CLA)
+----------------
+               9
+
+******************* REM PREGUNTA 20
+SQL> SELECT P
+  2       FROM PROFESOR
+  3            WHERE DNI = (SELECT DNI
+  4                              FROM PLAN_DOCENTE
+  5                                  WHERE (CTA+CPA+CLA) = (SELECT MAX(CTA+CPA+CLA)
+  6                                                                  FROM PLAN_DOCENTE));
+
+P
+------------------------------------------------------------
+MARIO
+
+SQL> SELECT P
+  2       FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3            WHERE (CTA+CPA+CLA) = (SELECT MAX(CTA+CPA+CLA)
+  4                                        FROM PLAN_DOCENTE);
+
+P
+------------------------------------------------------------
+MARIO
+
+
+
+******************* REM PREGUNTA 21
+SQL> SELECT AVG(CAS)
+  2       FROM ASIGNATURA
+  3            WHERE CAR IN (SELECT CAR
+  4                               FROM AREA);
+
+  AVG(CAS)
+----------
+       6.5
+
+SQL> SELECT AVG(CAS)
+  2       FROM ASIGNATURA, AREA
+  3  ;
+
+  AVG(CAS)
+----------
+       6.5
+
+SQL> SELECT AVG(CAS)
+  2        FROM ASIGNATURA, AREA
+  3             WHERE (ASIGNATURA.CAR = AREA.CAR);
+
+  AVG(CAS)
+----------
+       6.5
+
+
+******************* REM PREGUNTA 22
+SQL> SELECT AVG(COUNT(DNI))
+  2       FROM PROFESOR NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  3             GROUP BY CD;
+
+AVG(COUNT(DNI))
+---------------
+              3
+
+******************* REM PREGUNTA 23
+SQL> SELECT AR
+  2       FROM AREA NATURAL JOIN ASIGNATURA
+  3           GROUP BY AR
+  4               HAVING COUNT(CAS) > 3;
+
+AR
+------------------------------------------------------------
+LENGUAJES Y SISTEMAS INFORMATICOS
+
+SQL> SELECT AR
+  2       FROM AREA
+  3            WHERE CAR IN (SELECT CAR
+  4                 FROM ASIGNATURA
+  5                      GROUP BY CAR
+  6                            HAVING COUNT(CAS)>3);
+
+AR
+------------------------------------------------------------
+LENGUAJES Y SISTEMAS INFORMATICOS
+
+******************* REM PREGUNTA 24
+SQL> SELECT AR
+  2       FROM AREA NATURAL JOIN ASIGNATURA
+  3           GROUP BY AR
+  4                HAVING COUNT(CAS)>6;
+
+no rows selected
+
+SQL> SELECT AR
+  2       FROM AREA
+  3            WHERE CAR IN (SELECT CAR
+  4                 FROM ASIGNATURA
+  5                      GROUP BY CAR
+  6                           HAVING COUNT(CAS)>6);
+
+no rows selected
+
+******************* REM PREGUNTA 25
+SQL> SELECT D
+  2       FROM AREA, DEPARTAMENTO, PROFESOR
+  3           WHERE ((AREA.CD = DEPARTAMENTO.CD) AND (AREA.CAR = PROFESOR.CAR))
+  4                GROUP BY D
+  5                     HAVING COUNT(DNI) = (SELECT MIN(COUNT(DNI))
+  6                          FROM AREA, DEPARTAMENTO, PROFESOR
+  7                               WHERE (AREA.CD = DEPARTAMENTO.CD) AND (AREA.CAR = PROFESOR.CAR)
+  8                                    GROUP BY D);
+
+D
+------------------------------------------------------------
+ASTROFISICA
+MATEMATICA FUNDAMENTAL

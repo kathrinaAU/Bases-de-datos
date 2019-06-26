@@ -1,0 +1,443 @@
+
+******************* REM PREGUNTA 1
+SQL> SELECT A
+  2       FROM ASIGNATURA, AREA
+  3            WHERE ((AR LIKE 'A%') AND (ASIGNATURA.CAR = AREA.CAR));
+
+A
+--------------------------------------------------
+ALGEBRA
+ANALISIS COMPLEJO
+ASTRONOMIA
+
+SQL> SELECT A
+  2       FROM ASIGNATURA NATURAL JOIN AREA
+  3            WHERE AR LIKE 'A%';
+
+A
+--------------------------------------------------
+ALGEBRA
+ANALISIS COMPLEJO
+ASTRONOMIA
+
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE CAR IN (SELECT CAR
+  4                               FROM AREA
+  5                                    WHERE AR LIKE 'A%');
+
+A
+--------------------------------------------------
+ALGEBRA
+ANALISIS COMPLEJO
+ASTRONOMIA
+
+
+******************* REM PREGUNTA 2
+SQL> SELECT A
+  2       FROM ASIGNATURA, AREA
+  3            WHERE ((AR LIKE '%A') AND (ASIGNATURA.CAR = AREA.CAR));
+
+A
+--------------------------------------------------
+ALGEBRA
+ASTRONOMIA
+ENSENANZA DE LA MATEMATICA
+OPTIMIZACION
+CALCULO
+
+SQL> SELECT A
+  2       FROM ASIGNATURA NATURAL JOIN AREA
+  3            WHERE (AR LIKE '%A');
+
+A
+--------------------------------------------------
+ALGEBRA
+ASTRONOMIA
+ENSENANZA DE LA MATEMATICA
+OPTIMIZACION
+CALCULO
+
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE CAR IN (SELECT CAR
+  4                               FROM AREA
+  5                                    WHERE AR LIKE '%A');
+
+A
+--------------------------------------------------
+ALGEBRA
+ASTRONOMIA
+ENSENANZA DE LA MATEMATICA
+OPTIMIZACION
+CALCULO
+
+******************* REM PREGUNTA 3
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE A LIKE '%DATOS%';
+
+A
+--------------------------------------------------
+BASES DE DATOS
+ALMACENES DE DATOS
+MINERIA DE DATOS
+
+******************* REM PREGUNTA 4
+SQL> SELECT DNI
+  2       FROM PROFESOR
+  3            WHERE P LIKE '__R%';
+
+       DNI
+----------
+      2222
+      4444
+      6666
+      7777
+
+
+******************* REM PREGUNTA 5
+
+SQL> SELECT UNIQUE(DNI)
+  2       FROM PROFESOR
+  3            WHERE LENGTH(P) <= 5;
+
+       DNI
+----------
+      1111
+      3333
+      4444
+      5555
+      7777
+      1010
+
+6 rows selected.
+
+SQL> SELECT UNIQUE (DNI)
+  2       FROM PROFESOR
+  3            WHERE P NOT LIKE '_____%';
+
+       DNI
+----------
+      1111
+      5555
+
+SQL> SELECT UNIQUE (DNI)
+  2       FROM PROFESOR
+  3            WHERE P NOT LIKE '______%';
+
+       DNI
+----------
+      1111
+      3333
+      4444
+      5555
+      7777
+      1010
+
+6 rows selected.
+
+
+******************* REM PREGUNTA 6
+SQL> SELECT UNIQUE(DNI)
+  2       FROM PROFESOR
+  3            WHERE LENGTH(P) >=5;
+
+       DNI
+----------
+      2222
+      3333
+      4444
+      6666
+      7777
+      8888
+      9999
+      1010
+      2020
+      3030
+
+10 rows selected.
+
+SQL> SELECT UNIQUE(DNI)
+  2       FROM PROFESOR
+  3            WHERE P LIKE '_____%';
+
+       DNI
+----------
+      2222
+      3333
+      4444
+      6666
+      7777
+      8888
+      9999
+      1010
+      2020
+      3030
+
+10 rows selected.
+
+
+******************* REM PREGUNTA 7
+SQL> SELECT UNIQUE (P)
+  2       FROM PROFESOR, PLAN_DOCENTE
+  3            WHERE ((PROFESOR.DNI = PLAN_DOCENTE.DNI) AND (FF IS NULL));
+
+P
+------------------------------------------------------------
+MARIO
+JUAN
+PEDRO
+FRANCISCO
+SOLEDAD
+DAVID
+CARLOS
+IVAN
+MARIA
+JOSE MANUEL
+ANGELA
+
+11 rows selected.
+
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3            WHERE (FF IS NULL);
+
+P
+------------------------------------------------------------
+MARIO
+JUAN
+PEDRO
+FRANCISCO
+SOLEDAD
+DAVID
+CARLOS
+IVAN
+MARIA
+JOSE MANUEL
+ANGELA
+
+11 rows selected.
+
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR
+  3            WHERE DNI IN (SELECT DNI
+  4                               FROM PLAN_DOCENTE
+  5                                    WHERE FF IS NULL);
+
+P
+------------------------------------------------------------
+MARIO
+JUAN
+PEDRO
+FRANCISCO
+SOLEDAD
+DAVID
+CARLOS
+IVAN
+MARIA
+JOSE MANUEL
+ANGELA
+
+11 rows selected.
+
+
+******************* REM PREGUNTA 8
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR, ASIGNATURA
+  3            WHERE ((PROFESOR.CAR = ASIGNATURA.CAR) AND (CAS = '8'));
+
+P
+------------------------------------------------------------
+JUAN
+JOSE MANUEL
+
+SQL> SELECT UNIQUE (P)
+  2       FROM PROFESOR NATURAL JOIN ASIGNATURA
+  3            WHERE CAS = '8';
+
+P
+------------------------------------------------------------
+JUAN
+JOSE MANUEL
+
+SQL> SELECT UNIQUE (P)
+  2         FROM PROFESOR
+  3              WHERE CAR IN (SELECT CAR
+  4                                 FROM ASIGNATURA
+  5                                      WHERE CAS = '8');
+
+P
+------------------------------------------------------------
+JUAN
+JOSE MANUEL
+
+******************* REM PREGUNTA 9
+SQL> SELECT *
+  2       FROM PLAN_DOCENTE
+  3           ORDER BY FF;
+
+       DNI	  CAS	     CTA	CPA	   CLA FI	 FF
+---------- ---------- ---------- ---------- ---------- --------- ---------
+      2222	    3	     1.5	  0	   1.5 01-SEP-06 31-AUG-07
+      1010	    2	     1.5	1.5	     3 01-SEP-05 31-AUG-08
+      1010	    9	       3	  0	     3 01-SEP-08 31-AUG-09
+      1111	    8	       3	1.5	   1.5 01-SEP-07 31-AUG-09
+      4444	    4	     1.5	  0	   1.5 01-SEP-08 31-AUG-10
+      6666	   10	       3	1.5	   1.5 01-SEP-08 31-AUG-11
+      1010	    9	     1.5	  0	   1.5 01-SEP-09
+      9999	    7	       3	  3	     0 01-SEP-10
+      5555	    6	       3	  3	     0 31-MAR-10
+      2020	    3	     1.5	  0	   1.5 01-SEP-08
+      7777	   12	     4.5	  3	     0 01-SEP-10
+      8888	   11	       6	  0	     0 01-SEP-09
+      3333	    9	     1.5	  0	   1.5 01-SEP-09
+      2222	    4	     1.5	  0	   1.5 01-SEP-09
+      3030	    8	       0	1.5	   1.5 01-SEP-09
+      1111	    8	       3	  0	     0 01-SEP-09
+      4444	    5	       3	  0	     0 01-SEP-10
+
+       DNI	  CAS	     CTA	CPA	   CLA FI	 FF
+---------- ---------- ---------- ---------- ---------- --------- ---------
+      4444	    1	       3	1.5	   1.5 01-SEP-11
+      3333	    2	     1.5	1.5	     3 01-SEP-08
+
+19 rows selected.
+
+******************* REM PREGUNTA 10
+SQL> SELECT *
+  2       FROM PLAN_DOCENTE
+  3           ORDER BY FF DESC;
+
+       DNI	  CAS	     CTA	CPA	   CLA FI	 FF
+---------- ---------- ---------- ---------- ---------- --------- ---------
+      4444	    1	       3	1.5	   1.5 01-SEP-11
+      3333	    2	     1.5	1.5	     3 01-SEP-08
+      8888	   11	       6	  0	     0 01-SEP-09
+      7777	   12	     4.5	  3	     0 01-SEP-10
+      2020	    3	     1.5	  0	   1.5 01-SEP-08
+      5555	    6	       3	  3	     0 31-MAR-10
+      9999	    7	       3	  3	     0 01-SEP-10
+      4444	    5	       3	  0	     0 01-SEP-10
+      1111	    8	       3	  0	     0 01-SEP-09
+      3030	    8	       0	1.5	   1.5 01-SEP-09
+      2222	    4	     1.5	  0	   1.5 01-SEP-09
+      3333	    9	     1.5	  0	   1.5 01-SEP-09
+      1010	    9	     1.5	  0	   1.5 01-SEP-09
+      6666	   10	       3	1.5	   1.5 01-SEP-08 31-AUG-11
+      4444	    4	     1.5	  0	   1.5 01-SEP-08 31-AUG-10
+      1010	    9	       3	  0	     3 01-SEP-08 31-AUG-09
+      1111	    8	       3	1.5	   1.5 01-SEP-07 31-AUG-09
+
+       DNI	  CAS	     CTA	CPA	   CLA FI	 FF
+---------- ---------- ---------- ---------- ---------- --------- ---------
+      1010	    2	     1.5	1.5	     3 01-SEP-05 31-AUG-08
+      2222	    3	     1.5	  0	   1.5 01-SEP-06 31-AUG-07
+
+19 rows selected.
+
+******************* REM PREGUNTA 11
+SQL> SELECT UNIQUE (P)
+  2       FROM PROFESOR, ASIGNATURA
+  3            WHERE ((ASIGNATURA.CAR = PROFESOR.CAR) AND (A = 'OPTIMIZACION') AND (T = 'GII'))
+  4                ORDER BY P;
+
+P
+------------------------------------------------------------
+JOSE MANUEL
+JUAN
+
+SQL> SELECT UNIQUE (P)
+  2       FROM PROFESOR NATURAL JOIN ASIGNATURA
+  3            WHERE ((A = 'OPTIMIZACION') AND (T = 'GII'))
+  4                  ORDER BY P;
+
+P
+------------------------------------------------------------
+JOSE MANUEL
+JUAN
+
+
+SQL> SELECT UNIQUE (P)
+  2         FROM PROFESOR
+  3              WHERE CAR IN (SELECT CAR
+  4                                 FROM ASIGNATURA
+  5                                      WHERE (A = 'OPTIMIZACION' AND T = 'GII'))
+  6                                            ORDER BY P;
+
+P
+------------------------------------------------------------
+JOSE MANUEL
+JUAN
+
+******************* REM PREGUNTA 12
+SQL> SELECT UNIQUE(P)
+  2       FROM DEPARTAMENTO, AREA, PROFESOR
+  3            WHERE ((DEPARTAMENTO.CD = AREA.CD) AND (AREA.CAR = PROFESOR.CAR) AND (D = 'MATEMATICA FUNDAMENTAL'))
+  4                 ORDER BY P DESC;
+
+P
+------------------------------------------------------------
+IVAN
+
+SQL> SELECT UNIQUE (P)
+  2       FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3            WHERE (D = 'MATEMATICA FUNDAMENTAL')
+  4                 ORDER BY P DESC;
+
+P
+------------------------------------------------------------
+IVAN
+
+SQL> SELECT UNIQUE (P)
+  2         FROM PROFESOR
+  3              WHERE CAR IN (SELECT CAR
+  4                                 FROM AREA
+  5                                     WHERE CD IN (SELECT CD
+  7                                                            WHERE (D='MATEMATICA FUNDAMENTAL')))
+  8                                                                   ORDER BY P DESC;
+
+P
+------------------------------------------------------------
+IVAN
+
+******************* REM PREGUNTA 13
+SQL> SELECT UNIQUE(A)
+  2       FROM ASIGNATURA, PROFESOR
+  3            WHERE ((ASIGNATURA.CAR = PROFESOR.CAR) AND (DNI = '1010'));
+
+A
+--------------------------------------------------
+GESTION DE RIESGOS
+INTELIGENCIA ARTIFICIAL
+
+SQL> SELECT UNIQUE(A)
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3            WHERE (DNI = '1010');
+
+A
+--------------------------------------------------
+GESTION DE RIESGOS
+INTELIGENCIA ARTIFICIAL
+
+SQL> SELECT UNIQUE(A)
+  2       FROM ASIGNATURA
+  3            WHERE CAR IN (SELECT CAR
+  4                               FROM PROFESOR
+  5                                    WHERE DNI = '1010');
+
+A
+--------------------------------------------------
+GESTION DE RIESGOS
+INTELIGENCIA ARTIFICIAL
+
+
+******************* REM PREGUNTA 14
+SQL> SELECT UNIQUE (A)
+  2       FROM ASIGNATURA, PROFESOR
+  3            WHERE ((ASIGNATURA.CAR = PROFESOR.CAR) AND (P = 'DAVID'));
+
+A
+--------------------------------------------------
+GESTION DE RIESGOS
+INTELIGENCIA ARTIFICIAL

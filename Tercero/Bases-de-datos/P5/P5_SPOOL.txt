@@ -1,0 +1,917 @@
+******************* REM PREGUNTA 1
+SQL> SELECT A
+  2       FROM ASIGNATURA, AREA
+  3            WHERE ((AR LIKE 'A%') AND (ASIGNATURA.CAR = AREA.CAR));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+ALGEBRA                                                                                                                 
+ANALISIS COMPLEJO                                                                                                       
+ASTRONOMIA                                                                                                              
+
+SQL> SELECT A
+  2       FROM ASIGNATURA NATURAL JOIN AREA
+  3            WHERE (AR LIKE 'A%');
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+ALGEBRA                                                                                                                 
+ANALISIS COMPLEJO                                                                                                       
+ASTRONOMIA                                                                                                              
+
+******************* REM PREGUNTA 2
+SQL> SELECT A
+  2       FROM ASIGNATURA, AREA
+  3            WHERE ((AR LIKE '%A') AND (ASIGNATURA.CAR = AREA.CAR));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+ALGEBRA                                                                                                                 
+ASTRONOMIA                                                                                                              
+ENSENANZA DE LA MATEMATICA                                                                                              
+OPTIMIZACION                                                                                                            
+CALCULO                                                                                                                 
+
+SQL> SELECT A
+  2       FROM ASIGNATURA NATURAL JOIN AREA
+  3            WHERE (AR LIKE '%A');
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+ALGEBRA                                                                                                                 
+ASTRONOMIA                                                                                                              
+ENSENANZA DE LA MATEMATICA                                                                                              
+OPTIMIZACION                                                                                                            
+CALCULO                                                                                                                 
+
+******************* REM PREGUNTA 3
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE A LIKE '%DATOS%';
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+BASES DE DATOS                                                                                                          
+ALMACENES DE DATOS                                                                                                      
+MINERIA DE DATOS                                                                                                        
+
+******************* REM PREGUNTA 4
+SQL> SELECT DNI
+  2       FROM PROFESOR
+  3            WHERE P LIKE '__R%';
+
+       DNI                                                                                                              
+----------                                                                                                              
+      2222                                                                                                              
+      4444                                                                                                              
+      6666                                                                                                              
+      7777                                                                                                              
+
+SQL> REM PREGUNTA 5:
+SQL> SELECT UNIQUE(DNI)
+  2       FROM PROFESOR
+  3            WHERE LENGTH(P) <= 5;
+
+       DNI                                                                                                              
+----------                                                                                                              
+      1111                                                                                                              
+      3333                                                                                                              
+      4444                                                                                                              
+      5555                                                                                                              
+      7777                                                                                                              
+      1010                                                                                                              
+
+6 rows selected.
+
+SQL> SELECT UNIQUE (DNI)
+  2       FROM PROFESOR
+  3            WHERE P NOT LIKE '_____%';
+                                
+
+       DNI                                                                                                              
+----------                                                                                                              
+      1111                                                                                                              
+      5555                                                                                                              
+
+SQL> SELECT UNIQUE (DNI)
+  2       FROM PROFESOR
+  3            WHERE P NOT LIKE '______%';
+
+       DNI                                                                                                              
+----------                                                                                                              
+      1111                                                                                                              
+      3333                                                                                                              
+      4444                                                                                                              
+      5555                                                                                                              
+      7777                                                                                                              
+      1010                                                                                                              
+
+6 rows selected.
+
+******************* REM PREGUNTA 6
+SQL> SELECT UNIQUE(DNI)
+  2       FROM PROFESOR
+  3            WHERE LENGTH(P) >=5;
+
+       DNI                                                                                                              
+----------                                                                                                              
+      2222                                                                                                              
+      3333                                                                                                              
+      4444                                                                                                              
+      6666                                                                                                              
+      7777                                                                                                              
+      8888                                                                                                              
+      9999                                                                                                              
+      1010                                                                                                              
+      2020                                                                                                              
+      3030                                                                                                              
+
+10 rows selected.
+
+SQL> SELECT UNIQUE(DNI)
+  2       FROM PROFESOR
+  3            WHERE P LIKE '_____%';
+
+       DNI                                                                                                              
+----------                                                                                                              
+      2222                                                                                                              
+      3333                                                                                                              
+      4444                                                                                                              
+      6666                                                                                                              
+      7777                                                                                                              
+      8888                                                                                                              
+      9999                                                                                                              
+      1010                                                                                                              
+      2020                                                                                                              
+      3030                                                                                                              
+
+10 rows selected.
+
+******************* REM PREGUNTA 7
+SQL> SELECT P
+  2       FROM PROFESOR, PLAN_DOCENTE
+  3            WHERE ((PROFESOR.DNI = PLAN_DOCENTE.DNI) AND (FF IS NULL));
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+DAVID                                                                                                                   
+JUAN                                                                                                                    
+SOLEDAD                                                                                                                 
+CARLOS                                                                                                                  
+JOSE MANUEL                                                                                                             
+PEDRO                                                                                                                   
+PEDRO                                                                                                                   
+MARIA                                                                                                                   
+MARIA                                                                                                                   
+IVAN                                                                                                                    
+MARIO                                                                                                                   
+FRANCISCO                                                                                                               
+ANGELA                                                                                                                  
+
+13 rows selected.
+
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR, PLAN_DOCENTE
+  3            WHERE ((PROFESOR.DNI = PLAN_DOCENTE.DNI) AND (FF IS NULL));
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+MARIO                                                                                                                   
+JUAN                                                                                                                    
+PEDRO                                                                                                                   
+FRANCISCO                                                                                                               
+SOLEDAD                                                                                                                 
+DAVID                                                                                                                   
+CARLOS                                                                                                                  
+IVAN                                                                                                                    
+MARIA                                                                                                                   
+JOSE MANUEL                                                                                                             
+ANGELA                                                                                                                  
+
+11 rows selected.
+
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3            WHERE (FF IS NULL);
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+MARIO                                                                                                                   
+JUAN                                                                                                                    
+PEDRO                                                                                                                   
+FRANCISCO                                                                                                               
+SOLEDAD                                                                                                                 
+DAVID                                                                                                                   
+CARLOS                                                                                                                  
+IVAN                                                                                                                    
+MARIA                                                                                                                   
+JOSE MANUEL                                                                                                             
+ANGELA                                                                                                                  
+
+11 rows selected.
+
+******************* REM PREGUNTA 8
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR, ASIGNATURA
+  3            WHERE ((PROFESOR.CAR = ASIGNATURA.CAR) AND (CAS = '8'));
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+JUAN                                                                                                                    
+JOSE MANUEL                                                                                                             
+
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR NATURAL JOIN ASIGNATURA
+  3            WHERE (CAS = '8');
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+JUAN                                                                                                                    
+JOSE MANUEL                                                                                                             
+
+******************* REM PREGUNTA 9
+SQL> SELECT *
+  2       FROM PLAN_DOCENTE
+  3            ORDER BY FF;
+
+       DNI        CAS        CTA        CPA        CLA FI        FF                                                     
+---------- ---------- ---------- ---------- ---------- --------- ---------                                              
+      2222          3        1.5          0        1.5 01-SEP-06 31-AUG-07                                              
+      1010          2        1.5        1.5          3 01-SEP-05 31-AUG-08                                              
+      1010          9          3          0          3 01-SEP-08 31-AUG-09                                              
+      1111          8          3        1.5        1.5 01-SEP-07 31-AUG-09                                              
+      4444          4        1.5          0        1.5 01-SEP-08 31-AUG-10                                              
+      6666         10          3        1.5        1.5 01-SEP-08 31-AUG-11                                              
+      1010          9        1.5          0        1.5 01-SEP-09                                                        
+      9999          7          3          3          0 01-SEP-10                                                        
+      5555          6          3          3          0 31-MAR-10                                                        
+      2020          3        1.5          0        1.5 01-SEP-08                                                        
+      7777         12        4.5          3          0 01-SEP-10                                                        
+      8888         11          6          0          0 01-SEP-09                                                        
+      3333          9        1.5          0        1.5 01-SEP-09                                                        
+      2222          4        1.5          0        1.5 01-SEP-09                                                        
+      3030          8          0        1.5        1.5 01-SEP-09                                                        
+      1111          8          3          0          0 01-SEP-09                                                        
+      4444          5          3          0          0 01-SEP-10                                                        
+
+       DNI        CAS        CTA        CPA        CLA FI        FF                                                     
+---------- ---------- ---------- ---------- ---------- --------- ---------                                              
+      4444          1          3        1.5        1.5 01-SEP-11                                                        
+      3333          2        1.5        1.5          3 01-SEP-08                                                        
+
+19 rows selected.
+
+******************* REM PREGUNTA 10
+SQL> SELECT *
+  2       FROM PLAN_DOCENTE
+  3            ORDER BY FF DESC;
+
+       DNI        CAS        CTA        CPA        CLA FI        FF                                                     
+---------- ---------- ---------- ---------- ---------- --------- ---------                                              
+      4444          1          3        1.5        1.5 01-SEP-11                                                        
+      3333          2        1.5        1.5          3 01-SEP-08                                                        
+      8888         11          6          0          0 01-SEP-09                                                        
+      7777         12        4.5          3          0 01-SEP-10                                                        
+      2020          3        1.5          0        1.5 01-SEP-08                                                        
+      5555          6          3          3          0 31-MAR-10                                                        
+      9999          7          3          3          0 01-SEP-10                                                        
+      4444          5          3          0          0 01-SEP-10                                                        
+      1111          8          3          0          0 01-SEP-09                                                        
+      3030          8          0        1.5        1.5 01-SEP-09                                                        
+      2222          4        1.5          0        1.5 01-SEP-09                                                        
+      3333          9        1.5          0        1.5 01-SEP-09                                                        
+      1010          9        1.5          0        1.5 01-SEP-09                                                        
+      6666         10          3        1.5        1.5 01-SEP-08 31-AUG-11                                              
+      4444          4        1.5          0        1.5 01-SEP-08 31-AUG-10                                              
+      1010          9          3          0          3 01-SEP-08 31-AUG-09                                              
+      1111          8          3        1.5        1.5 01-SEP-07 31-AUG-09                                              
+
+       DNI        CAS        CTA        CPA        CLA FI        FF                                                     
+---------- ---------- ---------- ---------- ---------- --------- ---------                                              
+      1010          2        1.5        1.5          3 01-SEP-05 31-AUG-08                                              
+      2222          3        1.5          0        1.5 01-SEP-06 31-AUG-07                                              
+
+19 rows selected.
+
+******************* REM PREGUNTA 11
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR, ASIGNATURA
+  3            WHERE ((ASIGNATURA.CAR = PROFESOR.CAR) AND (A = 'OPTIMIZACION') AND (T = 'GII'))
+  4                  ORDER BY P;
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+JOSE MANUEL                                                                                                             
+JUAN                                                                                                                    
+
+SQL> SELECT UNIQUE(P)
+  2       FROM PROFESOR, ASIGNATURA, PLAN_DOCENTE
+  3            WHERE ((ASIGNATURA.CAR = PROFESOR.CAR) AND (A = 'OPTIMIZACION') AND (T = 'GII') AND (PROFESOR.DNI = PLAN_DOCENTE.DNI) AND (FF IS NOT NULL))
+  4                  ORDER BY P;
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+JUAN                                                                                                                    
+
+SQL> SELECT UNIQUE(P)
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3            WHERE ((A = 'OPTIMIZACION') AND (T = 'GII'))
+  4                  ORDER BY P;
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+JOSE MANUEL                                                                                                             
+JUAN                                                                                                                    
+
+SQL> SELECT UNIQUE(P)
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3            WHERE ((A = 'OPTIMIZACION') AND (T = 'GII') AND (FF IS NOT NULL))
+  4                  ORDER BY P;
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+JUAN                                                                                                                    
+
+******************* REM PREGUNTA 12
+SQL> SELECT UNIQUE(P)
+  2         FROM DEPARTAMENTO, AREA, PROFESOR
+  3              WHERE ((DEPARTAMENTO.CD = AREA.CD) AND (AREA.CAR = PROFESOR.CAR) AND (D = 'MATEMATICA FUNDAMENTAL'))
+  4                    ORDER BY P DESC;
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+IVAN                                                                                                                    
+
+SQL> SELECT UNIQUE(P)
+  2         FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3              WHERE (D = 'MATEMATICA FUNDAMENTAL')
+  4                    ORDER BY P DESC;
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+IVAN                                                                                                                    
+
+******************* REM PREGUNTA 13
+SQL> SELECT UNIQUE(A)
+  2       FROM ASIGNATURA, PROFESOR
+  3            WHERE ((ASIGNATURA.CAR = PROFESOR.CAR) AND (DNI = '1010'));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+
+SQL> SELECT UNIQUE(A)
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3            WHERE (DNI = '1010');
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+
+SQL> SELECT UNIQUE(A)
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3            WHERE (DNI='1010') AND (FF IS NOT NULL);
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+
+******************* REM PREGUNTA 14
+SQL> SELECT UNIQUE (A)
+  2       FROM ASIGNATURA, PROFESOR
+  3            WHERE ((ASIGNATURA.CAR = PROFESOR.CAR) AND (P = 'DAVID'));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+
+SQL> SELECT UNIQUE (A)
+  2       FROM ASIGNATURA, PROFESOR, PLAN_DOCENTE
+  3            WHERE ((ASIGNATURA.CAR = PROFESOR.CAR) AND (PROFESOR.DNI = PLAN_DOCENTE.DNI) AND (P = 'DAVID') AND (FF IS NOT NULL));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+
+SQL> SELECT UNIQUE (A)
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3            WHERE (P = 'DAVID');
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+
+SQL> SELECT UNIQUE (A)
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3            WHERE (P = 'DAVID') AND (FF IS NOT NULL);
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+
+******************* REM PREGUNTA 15
+SQL> SELECT AR
+  2       FROM AREA, DEPARTAMENTO
+  3            WHERE ((AREA.CD = DEPARTAMENTO.CD) AND (D = 'ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION'));
+
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                                                                    
+ESTADISTICA E INVESTIGACION OPERATIVA                                                                                   
+LENGUAJES Y SISTEMAS INFORMATICOS                                                                                       
+
+SQL> SELECT AR
+  2       FROM AREA NATURAL JOIN DEPARTAMENTO
+  3            WHERE D = 'ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION';
+
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                                                                    
+ESTADISTICA E INVESTIGACION OPERATIVA                                                                                   
+LENGUAJES Y SISTEMAS INFORMATICOS                                                                                       
+
+******************* REM PREGUNTA 16
+SQL> SELECT A
+  2       FROM ASIGNATURA NATURAL JOIN PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3            WHERE ((CAT = 'CU') AND (FF IS NULL));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+OPTIMIZACION                                                                                                            
+ALMACENES DE DATOS                                                                                                      
+
+SQL> SELECT A
+  2       FROM ASIGNATURA, PROFESOR, PLAN_DOCENTE
+  3            WHERE ((PROFESOR.DNI = PLAN_DOCENTE.DNI) AND (CAT='CU') AND (FF IS NULL) AND (PLAN_DOCENTE.CAS = ASIGNATURA.CAS));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+OPTIMIZACION                                                                                                            
+ALMACENES DE DATOS                                                                                                      
+
+******************* REM PREGUNTA 17
+
+
+
+
+
+
+
+
+
+ 
+******************* REM PREGUNTA 18
+SQL> SELECT UNIQUE (A)
+  2       FROM AREA, ASIGNATURA
+  3            WHERE (AREA.CAR = ASIGNATURA.CAR) AND ((AR = 'LENGUAJES Y SISTEMAS INFORMATICOS') OR (AR = 'CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL'));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+BASES DE DATOS                                                                                                          
+INFORMATICA BASICA                                                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+MINERIA DE DATOS                                                                                                        
+ALMACENES DE DATOS                                                                                                      
+
+6 rows selected.
+
+SQL> SELECT UNIQUE (A)
+  2       FROM AREA NATURAL JOIN ASIGNATURA
+  3            WHERE ((AR = 'LENGUAJES Y SISTEMAS INFORMATICOS') OR (AR = 'CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL'));
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+BASES DE DATOS                                                                                                          
+INFORMATICA BASICA                                                                                                      
+GESTION DE RIESGOS                                                                                                      
+INTELIGENCIA ARTIFICIAL                                                                                                 
+MINERIA DE DATOS                                                                                                        
+ALMACENES DE DATOS                                                                                                      
+
+6 rows selected.
+
+******************* REM PREGUNTA 19
+SQL> SELECT UNIQUE (P)
+  2       FROM PROFESOR, PLAN_DOCENTE, ASIGNATURA
+  3            WHERE ((PROFESOR.DNI = PLAN_DOCENTE.DNI) AND (ASIGNATURA.CAR = PROFESOR.CAR) AND ((T='GII') OR (T='MII')) AND (FF IS NULL));
+
+P                                                                                                                       
+------------------------------------------------------------                                                            
+PEDRO                                                                                                                   
+JUAN                                                                                                                    
+SOLEDAD                                                                                                                 
+CARLOS                                                                                                                  
+DAVID                                                                                                                   
+IVAN                                                                                                                    
+MARIA                                                                                                                   
+JOSE MANUEL                                                                                                             
+ANGELA                                                                                                                  
+
+9 rows selected.
+
+******************* REM PREGUNTA 20
+SQL> SELECT UNIQUE (P)
+  2       FROM PROFESOR, PLAN_DOCENTE, ASIGNATURA
+  3            WHERE ((PROFESOR.DNI = PLAN_DOCENTE.DNI) AND (ASIGNATURA.CAR = PROFESOR.CAR) AND ((T='GII') AND (T='MII')) AND (FF IS NULL));
+
+no rows selected
+
+******************* REM PREGUNTA 21
+
+
+
+
+
+
+
+
+
+
+******************* REM PREGUNTA 22
+SQL> SELECT A
+  2       FROM ASIGNATURA
+  3            WHERE T = 'GII';
+
+A                                                                                                                       
+--------------------------------------------------                                                                      
+BASES DE DATOS                                                                                                          
+INTELIGENCIA ARTIFICIAL                                                                                                 
+INFORMATICA BASICA                                                                                                      
+ALGEBRA                                                                                                                 
+CALCULO                                                                                                                 
+OPTIMIZACION                                                                                                            
+GESTION DE RIESGOS                                                                                                      
+
+7 rows selected.
+  
+
+******************* REM PREGUNTA 23
+SQL> SELECT AR, A
+  2       FROM AREA NATURAL JOIN ASIGNATURA;
+
+AR                                                           A                                                          
+------------------------------------------------------------ --------------------------------------------------         
+ALGEBRA                                                      ALGEBRA                                                    
+ANALISIS MATEMATICO                                          ANALISIS COMPLEJO                                          
+ASTRONOMIA Y ASTROFISICA                                     ASTRONOMIA                                                 
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         INTELIGENCIA ARTIFICIAL                                    
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         GESTION DE RIESGOS                                         
+DIDACTICA DE LA MATEMATICA                                   ENSENANZA DE LA MATEMATICA                                 
+ESTADISTICA E INVESTIGACION OPERATIVA                        OPTIMIZACION                                               
+LENGUAJES Y SISTEMAS INFORMATICOS                            MINERIA DE DATOS                                           
+LENGUAJES Y SISTEMAS INFORMATICOS                            BASES DE DATOS                                             
+LENGUAJES Y SISTEMAS INFORMATICOS                            ALMACENES DE DATOS                                         
+LENGUAJES Y SISTEMAS INFORMATICOS                            INFORMATICA BASICA                                         
+MATEMATICA APLICADA                                          CALCULO                                                    
+
+12 rows selected.
+
+SQL> SELECT AR, A
+  2       FROM AREA NATURAL JOIN ASIGNATURA
+  3            ORDER BY AR, A;
+
+AR                                                           A                                                          
+------------------------------------------------------------ --------------------------------------------------         
+ALGEBRA                                                      ALGEBRA                                                    
+ANALISIS MATEMATICO                                          ANALISIS COMPLEJO                                          
+ASTRONOMIA Y ASTROFISICA                                     ASTRONOMIA                                                 
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         GESTION DE RIESGOS                                         
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         INTELIGENCIA ARTIFICIAL                                    
+DIDACTICA DE LA MATEMATICA                                   ENSENANZA DE LA MATEMATICA                                 
+ESTADISTICA E INVESTIGACION OPERATIVA                        OPTIMIZACION                                               
+LENGUAJES Y SISTEMAS INFORMATICOS                            ALMACENES DE DATOS                                         
+LENGUAJES Y SISTEMAS INFORMATICOS                            BASES DE DATOS                                             
+LENGUAJES Y SISTEMAS INFORMATICOS                            INFORMATICA BASICA                                         
+LENGUAJES Y SISTEMAS INFORMATICOS                            MINERIA DE DATOS                                           
+MATEMATICA APLICADA                                          CALCULO                                                    
+
+12 rows selected.
+
+SQL> SELECT AR, A
+  2       FROM AREA, ASIGNATURA
+  3            WHERE (ASIGNATURA.CAR = AREA.CAR);
+
+AR                                                           A                                                          
+------------------------------------------------------------ --------------------------------------------------         
+ALGEBRA                                                      ALGEBRA                                                    
+ANALISIS MATEMATICO                                          ANALISIS COMPLEJO                                          
+ASTRONOMIA Y ASTROFISICA                                     ASTRONOMIA                                                 
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         INTELIGENCIA ARTIFICIAL                                    
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         GESTION DE RIESGOS                                         
+DIDACTICA DE LA MATEMATICA                                   ENSENANZA DE LA MATEMATICA                                 
+ESTADISTICA E INVESTIGACION OPERATIVA                        OPTIMIZACION                                               
+LENGUAJES Y SISTEMAS INFORMATICOS                            MINERIA DE DATOS                                           
+LENGUAJES Y SISTEMAS INFORMATICOS                            BASES DE DATOS                                             
+LENGUAJES Y SISTEMAS INFORMATICOS                            ALMACENES DE DATOS                                         
+LENGUAJES Y SISTEMAS INFORMATICOS                            INFORMATICA BASICA                                         
+MATEMATICA APLICADA                                          CALCULO                                                    
+
+12 rows selected.
+
+SQL> SELECT AR, A
+  2       FROM AREA, ASIGNATURA
+  3            WHERE (ASIGNATURA.CAR = AREA.CAR)
+  4                  ORDER BY AR, A;
+
+AR                                                           A                                                          
+------------------------------------------------------------ --------------------------------------------------         
+ALGEBRA                                                      ALGEBRA                                                    
+ANALISIS MATEMATICO                                          ANALISIS COMPLEJO                                          
+ASTRONOMIA Y ASTROFISICA                                     ASTRONOMIA                                                 
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         GESTION DE RIESGOS                                         
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL         INTELIGENCIA ARTIFICIAL                                    
+DIDACTICA DE LA MATEMATICA                                   ENSENANZA DE LA MATEMATICA                                 
+ESTADISTICA E INVESTIGACION OPERATIVA                        OPTIMIZACION                                               
+LENGUAJES Y SISTEMAS INFORMATICOS                            ALMACENES DE DATOS                                         
+LENGUAJES Y SISTEMAS INFORMATICOS                            BASES DE DATOS                                             
+LENGUAJES Y SISTEMAS INFORMATICOS                            INFORMATICA BASICA                                         
+LENGUAJES Y SISTEMAS INFORMATICOS                            MINERIA DE DATOS                                           
+MATEMATICA APLICADA                                          CALCULO                                                    
+
+12 rows selected.
+
+******************* REM PREGUNTA 24
+SQL> SELECT D, AR
+  2       FROM DEPARTAMENTO, AREA
+  3            WHERE (DEPARTAMENTO.CD = AREA.CD)
+  4                  ORDER BY D ASC;
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+ANALISIS MATEMATICO                                                                                                     
+DIDACTICA DE LA MATEMATICA                                                                                              
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+ANALISIS MATEMATICO                                                                                                     
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+MATEMATICA APLICADA                                                                                                     
+                                                                                                                        
+ASTROFISICA                                                                                                             
+ASTRONOMIA Y ASTROFISICA                                                                                                
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                                                                    
+                                                                                                                        
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+ESTADISTICA E INVESTIGACION OPERATIVA                                                                                   
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+LENGUAJES Y SISTEMAS INFORMATICOS                                                                                       
+                                                                                                                        
+MATEMATICA FUNDAMENTAL                                                                                                  
+ALGEBRA                                                                                                                 
+                                                                                                                        
+
+8 rows selected.
+
+SQL> SELECT D, AR
+  2       FROM DEPARTAMENTO, AREA
+  3            WHERE (DEPARTAMENTO.CD = AREA.CD);
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+ANALISIS MATEMATICO                                                                                                     
+DIDACTICA DE LA MATEMATICA                                                                                              
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+ANALISIS MATEMATICO                                                                                                     
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+MATEMATICA APLICADA                                                                                                     
+                                                                                                                        
+ASTROFISICA                                                                                                             
+ASTRONOMIA Y ASTROFISICA                                                                                                
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                                                                    
+                                                                                                                        
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+ESTADISTICA E INVESTIGACION OPERATIVA                                                                                   
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+LENGUAJES Y SISTEMAS INFORMATICOS                                                                                       
+                                                                                                                        
+MATEMATICA FUNDAMENTAL                                                                                                  
+ALGEBRA                                                                                                                 
+                                                                                                                        
+
+8 rows selected.
+
+SQL> SELECT AR, D
+  2       FROM DEPARTAMENTO, AREA
+  3            WHERE (DEPARTAMENTO.CD = AREA.CD);
+
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+D                                                                                                                       
+------------------------------------------------------------                                                            
+DIDACTICA DE LA MATEMATICA                                                                                              
+ANALISIS MATEMATICO                                                                                                     
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+ANALISIS MATEMATICO                                                                                                     
+                                                                                                                        
+MATEMATICA APLICADA                                                                                                     
+ANALISIS MATEMATICO                                                                                                     
+                                                                                                                        
+ASTRONOMIA Y ASTROFISICA                                                                                                
+ASTROFISICA                                                                                                             
+                                                                                                                        
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                                                                    
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+                                                                                                                        
+
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+D                                                                                                                       
+------------------------------------------------------------                                                            
+ESTADISTICA E INVESTIGACION OPERATIVA                                                                                   
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+                                                                                                                        
+LENGUAJES Y SISTEMAS INFORMATICOS                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+                                                                                                                        
+ALGEBRA                                                                                                                 
+MATEMATICA FUNDAMENTAL                                                                                                  
+                                                                                                                        
+
+8 rows selected.
+
+SQL> SELECT AR, D
+  2       FROM DEPARTAMENTO NATURAL JOIN AREA;
+
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+D                                                                                                                       
+------------------------------------------------------------                                                            
+DIDACTICA DE LA MATEMATICA                                                                                              
+ANALISIS MATEMATICO                                                                                                     
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+ANALISIS MATEMATICO                                                                                                     
+                                                                                                                        
+MATEMATICA APLICADA                                                                                                     
+ANALISIS MATEMATICO                                                                                                     
+                                                                                                                        
+ASTRONOMIA Y ASTROFISICA                                                                                                
+ASTROFISICA                                                                                                             
+                                                                                                                        
+CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL                                                                    
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+                                                                                                                        
+
+AR                                                                                                                      
+------------------------------------------------------------                                                            
+D                                                                                                                       
+------------------------------------------------------------                                                            
+ESTADISTICA E INVESTIGACION OPERATIVA                                                                                   
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+                                                                                                                        
+LENGUAJES Y SISTEMAS INFORMATICOS                                                                                       
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+                                                                                                                        
+ALGEBRA                                                                                                                 
+MATEMATICA FUNDAMENTAL                                                                                                  
+                                                                                                                        
+
+8 rows selected.
+
+******************* REM PREGUNTA 25
+SQL> SELECT D, P
+  2       FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3            ORDER BY D, P;
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+P                                                                                                                       
+------------------------------------------------------------                                                            
+ANALISIS MATEMATICO                                                                                                     
+ANGELA                                                                                                                  
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+FRANCISCO                                                                                                               
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+MARIO                                                                                                                   
+                                                                                                                        
+ASTROFISICA                                                                                                             
+CARMEN                                                                                                                  
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+CARLOS                                                                                                                  
+                                                                                                                        
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+P                                                                                                                       
+------------------------------------------------------------                                                            
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+DAVID                                                                                                                   
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+JOSE MANUEL                                                                                                             
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+JUAN                                                                                                                    
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+MARIA                                                                                                                   
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+PEDRO                                                                                                                   
+                                                                                                                        
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+P                                                                                                                       
+------------------------------------------------------------                                                            
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+SOLEDAD                                                                                                                 
+                                                                                                                        
+MATEMATICA FUNDAMENTAL                                                                                                  
+IVAN                                                                                                                    
+                                                                                                                        
+
+12 rows selected.
+
+SQL> SELECT D, P
+  2       FROM DEPARTAMENTO, AREA, PROFESOR
+  3            WHERE ((PROFESOR.CAR = AREA.CAR) AND (DEPARTAMENTO.CD = AREA.CD))
+  4                  ORDER BY D, P;
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+P                                                                                                                       
+------------------------------------------------------------                                                            
+ANALISIS MATEMATICO                                                                                                     
+ANGELA                                                                                                                  
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+FRANCISCO                                                                                                               
+                                                                                                                        
+ANALISIS MATEMATICO                                                                                                     
+MARIO                                                                                                                   
+                                                                                                                        
+ASTROFISICA                                                                                                             
+CARMEN                                                                                                                  
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+CARLOS                                                                                                                  
+                                                                                                                        
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+P                                                                                                                       
+------------------------------------------------------------                                                            
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+DAVID                                                                                                                   
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+JOSE MANUEL                                                                                                             
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+JUAN                                                                                                                    
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+MARIA                                                                                                                   
+                                                                                                                        
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+PEDRO                                                                                                                   
+                                                                                                                        
+
+D                                                                                                                       
+------------------------------------------------------------                                                            
+P                                                                                                                       
+------------------------------------------------------------                                                            
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                                                                      
+SOLEDAD                                                                                                                 
+                                                                                                                        
+MATEMATICA FUNDAMENTAL                                                                                                  
+IVAN                                                                                                                    
+                                                                                                                        
+
+12 rows selected.
+
